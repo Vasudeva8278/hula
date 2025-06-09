@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { BASE_URL } from "@/app/utils/base/api";
 
+
+
+
 interface Event {
   _id: string;
   name: string;
