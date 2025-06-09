@@ -1,24 +1,29 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import type { AppDispatch } from '../redux/store';
+import { fetchEvents } from '../redux/slice/event';
 import EventCard from './EventCard';
 import EventFilters from './EventFilters';
 import { Button } from '@/ui/button';
 import { Sparkles, Plus } from 'lucide-react';
-
-const initialEvents = [
-  { id: 1, title: 'React Conference', date: '2025-06-10', location: 'Online', category: 'Workshop' },
-  { id: 2, title: 'Next.js Meetup', date: '2025-07-01', location: 'New York', category: 'Function' },
-  { id: 3, title: 'Wedding Ceremony', date: '2025-08-15', location: 'Paris', category: 'Marriage' },
-  { id: 4, title: 'Business Seminar', date: '2025-09-05', location: 'London', category: 'Ceremony' },
-];
-
+import Link from "next/link";
 export default function EventsPage() {
-  const [filteredEvents, setFilteredEvents] = useState(initialEvents);
+  const dispatch = useDispatch<AppDispatch>();
+  const { events, loading, error } = useSelector((state: any) => state.events);
+  const [filteredEvents, setFilteredEvents] = useState(events);
 
-  // Dummy filter handler for demonstration
+  useEffect(() => {
+    dispatch(fetchEvents());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredEvents(events);
+  }, [events]);
+
   const handleFiltersChange = (filters: any) => {
-    let filtered = initialEvents;
+    let filtered = events;
     if (filters.category && filters.category !== '') {
       filtered = filtered.filter(event => event.category?.toLowerCase().includes(filters.category.toLowerCase()));
     }
@@ -40,12 +45,15 @@ export default function EventsPage() {
           Connect with your community through exciting events, workshops, and gatherings. 
           Create lasting memories and build meaningful connections.
         </p>
-        <Button 
-          size="lg" 
+        <Button
+          asChild
+          size="lg"
           className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-lg px-8 py-3"
         >
-          <Plus className="h-5 w-5 mr-2" />
-          Create Your Event
+          <Link href="/create_event">
+            <Plus className="h-5 w-5 mr-2" />
+            Create Your Event
+          </Link>
         </Button>
       </div>
 
@@ -72,10 +80,12 @@ export default function EventsPage() {
             </div>
           </div>
 
-          {filteredEvents.length > 0 ? (
+          {loading && <p className="text-white">Loading events...</p>}
+          {error && <p className="text-red-400">{error}</p>}
+          {filteredEvents && filteredEvents.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
+              {filteredEvents.map((event: { _id?: string; id?: string; category?: string }, index: number) => (
+                <EventCard key={event._id || event.id || index} event={event} />
               ))}
             </div>
           ) : (
@@ -83,8 +93,9 @@ export default function EventsPage() {
               <div className="text-gray-400 text-lg mb-4">No events found matching your criteria</div>
               <Button 
                 variant="outline" 
-                className="border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white"
-                onClick={() => setFilteredEvents(initialEvents)}
+                className="border-blue-500 text-b
+                lue-400 hover:bg-blue-500 hover:text-white"
+                onClick={() => setFilteredEvents(events)}
               >
                 Clear Filters
               </Button>

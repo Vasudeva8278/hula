@@ -1,9 +1,9 @@
 'use client';
 
-import { Search } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { Search } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -17,7 +17,6 @@ const Page = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Load Google Sign-In script
     const script = document.createElement('script');
     script.src = 'https://accounts.google.com/gsi/client';
     script.async = true;
@@ -65,16 +64,18 @@ const Page = () => {
 
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email') as string;
+    const username = formData.get('username') as string;
     const password = formData.get('password') as string;
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email,
+          username,
           password,
         }),
       });
@@ -85,43 +86,55 @@ const Page = () => {
         localStorage.setItem('user', JSON.stringify(data.user));
         router.push('/dashboard');
       } else {
-        setError(data.message || 'Login failed');
+        setError(data.message || 'Signup failed');
       }
     } catch (error) {
-      setError('An error occurred during login');
-      console.error('Error during login:', error);
+      setError('An error occurred during signup');
+      console.error('Error during signup:', error);
     }
   };
 
   return (
-    <div className="p-4 bg-gray-900 min-h-screen flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4 text-white">
       <div className="w-full max-w-sm space-y-6">
-        <h1 className="text-2xl font-semibold text-center text-white">Login</h1>
+        <h1 className="text-2xl font-semibold text-center">Create Account</h1>
         
         {error && (
           <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded text-sm">
             {error}
           </div>
         )}
-
+        
+        {/* Regular Sign Up Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-white mb-1">Email</label>
+            <label className="block text-sm font-medium mb-1">Username</label>
+            <input 
+              name="username"
+              type="text" 
+              className="w-full p-2 rounded bg-gray-800 border border-gray-700 focus:border-blue-500 focus:outline-none"
+              placeholder="Enter username"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1">Email</label>
             <input 
               name="email"
               type="email" 
-              className="w-full p-2 rounded bg-gray-800 border border-gray-700 text-white focus:border-blue-500 focus:outline-none"
+              className="w-full p-2 rounded bg-gray-800 border border-gray-700 focus:border-blue-500 focus:outline-none"
               placeholder="Enter email"
               required
             />
           </div>
-
+          
           <div>
-            <label className="block text-sm font-medium text-white mb-1">Password</label>
+            <label className="block text-sm font-medium mb-1">Password</label>
             <input 
               name="password"
               type="password" 
-              className="w-full p-2 rounded bg-gray-800 border border-gray-700 text-white focus:border-blue-500 focus:outline-none"
+              className="w-full p-2 rounded bg-gray-800 border border-gray-700 focus:border-blue-500 focus:outline-none"
               placeholder="Enter password"
               required
             />
@@ -132,7 +145,7 @@ const Page = () => {
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded flex items-center justify-center gap-2"
           >
             <Search size={18} />
-            Login
+            Sign Up
           </button>
         </form>
 
@@ -151,8 +164,7 @@ const Page = () => {
           data-context="signin"
           data-ux_mode="popup"
           data-callback="handleGoogleSignIn"
-          data-auto_prompt="false"
-          data-itp_support="true">
+          data-auto_prompt="false">
         </div>
 
         <div className="g_id_signin"
@@ -165,10 +177,10 @@ const Page = () => {
           data-width="100%">
         </div>
 
-        <p className="text-sm text-center text-white">
-          Don't have an account?{' '}
-          <Link href="/signup" className="text-blue-400 hover:underline">
-            Sign up
+        <p className="text-sm text-center">
+          Already have an account?{' '}
+          <Link href="/login" className="text-blue-400 hover:underline">
+            Login
           </Link>
         </p>
       </div>

@@ -4,17 +4,22 @@ import { Calendar, MapPin, Users } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/ui/card';
 import { Button } from '@/ui/button';
 
+interface EventType {
+  _id?: string;
+  id?: string;
+  category?: string;
+  title?: string;
+  name?: string;
+  description?: string;
+  startDate?: string;
+  date?: string;
+  location?: string | { url?: string; coordinates?: { latitude: number; longitude: number } };
+  rsvpCount?: number;
+  isPublic?: boolean;
+}
+
 interface EventCardProps {
-  event: {
-    id: string;
-    title: string;
-    description: string;
-    startDate: string;
-    location: string;
-    category: string;
-    rsvpCount: number;
-    isPublic: boolean;
-  };
+  event: EventType;
 }
 
 const EventCard = ({ event }: EventCardProps) => {
@@ -29,6 +34,19 @@ const EventCard = ({ event }: EventCardProps) => {
     });
   };
 
+  // Safely extract location info
+  let locationString = "";
+  if (typeof event.location === "string") {
+    locationString = event.location;
+  } else if (event.location && typeof event.location === "object") {
+    if (event.location.url) {
+      locationString = event.location.url;
+    } else if (event.location.coordinates) {
+      const { latitude, longitude } = event.location.coordinates;
+      locationString = `Lat: ${latitude}, Lng: ${longitude}`;
+    }
+  }
+
   return (
     <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700 hover:border-blue-500/50 transition-all duration-300 group">
       <CardHeader className="pb-3">
@@ -41,32 +59,27 @@ const EventCard = ({ event }: EventCardProps) => {
           )}
         </div>
         <h3 className="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors">
-          {event.title}
+          {event.title || event.name}
         </h3>
       </CardHeader>
-      
       <CardContent className="space-y-4">
         <p className="text-gray-300 text-sm line-clamp-2">
           {event.description}
         </p>
-        
         <div className="space-y-2">
           <div className="flex items-center text-gray-400 text-sm">
             <Calendar className="h-4 w-4 mr-2" />
-            {formatDate(event.startDate)}
+            {formatDate(event.startDate || event.date)}
           </div>
-          
           <div className="flex items-center text-gray-400 text-sm">
             <MapPin className="h-4 w-4 mr-2" />
-            {event.location}
+            {locationString}
           </div>
-          
           <div className="flex items-center text-gray-400 text-sm">
             <Users className="h-4 w-4 mr-2" />
-            {event.rsvpCount} attending
+            {event.rsvpCount || 0} attending
           </div>
         </div>
-        
         <div className="flex gap-2 pt-2">
           <Button 
             variant="outline" 

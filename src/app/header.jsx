@@ -32,6 +32,7 @@ const Header = () => {
             <Link href="/dashboard" className="text-gray-300 hover:text-blue-400 transition-colors">
               Dashboard
             </Link>
+           
           </nav>
 
           {/* Search Bar */}
