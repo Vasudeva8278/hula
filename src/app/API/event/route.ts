@@ -54,7 +54,8 @@ export async function GET() {
     }
 }
 
-// UPDATE
+
+
 export async function PUT(request: Request) {
     await connectDB();
     try {
@@ -96,3 +97,5 @@ export async function POST_BY_ID(request: Request) {
         return NextResponse.json({ message: "Error fetching event by id" }, { status: 500 });
     }
 }
+
+

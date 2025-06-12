@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-// Create User model if it doesn't exist
+
+
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export async function POST(request: Request) {
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find user by email
+  
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if user has a password (Google users won't have one)
+   
     if (!user.password) {
       return NextResponse.json(
         { message: 'Please sign in with Google' },
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify password
+    
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
@@ -57,6 +58,15 @@ export async function POST(request: Request) {
       );
     }
 
+    use effect()=>{
+      try{
+        const response = await fetch("http://example.com")
+        const result = response.json()
+
+      }catch(error){
+        retur
+      }
+    }
     return NextResponse.json({
       user: {
         id: user._id,
