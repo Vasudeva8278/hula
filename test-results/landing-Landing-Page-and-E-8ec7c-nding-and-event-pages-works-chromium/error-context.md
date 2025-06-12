@@ -1,0 +1,105 @@
+# Page snapshot
+
+```yaml
+- banner:
+  - link "EventHub":
+    - /url: /
+  - navigation:
+    - link "Events":
+      - /url: /events
+    - link "Map":
+      - /url: /map
+    - link "Dashboard":
+      - /url: /dashboard
+  - textbox "Search events..."
+  - link "Sign In":
+    - /url: /login
+    - button "Sign In"
+  - button "Create Event"
+- heading "Discover Amazing Events" [level=1]
+- paragraph: Connect with your community through exciting events, workshops, and gatherings. Create lasting memories and build meaningful connections.
+- link "Create Your Event":
+  - /url: /create_event
+- heading "Filter Events" [level=3]
+- text: Search Events
+- textbox "Search Events"
+- text: Category
+- combobox "Category":
+  - option "All Categories" [selected]
+  - option "Tech Meetup"
+  - option "Art Workshop"
+  - option "Music Concert"
+  - option "Sports Event"
+  - option "Business Conference"
+  - option "Food & Drink"
+  - option "Health & Wellness"
+  - option "Education"
+- text: Date Range
+- textbox
+- textbox
+- text: Location
+- textbox "Location"
+- button "Clear Filters"
+- heading "Upcoming Events (5)" [level=2]
+- button "Grid View"
+- button "List View"
+- text: Private
+- heading "Wedding" [level=3]
+- paragraph
+- text: Invalid Date
+- 'link "Lat: 17.4454, Lng: 78.3497"':
+  - /url: https://www.google.com/maps?q=17.4454,78.3497
+- text: 0 attending
+- link "View Details":
+  - /url: /events/6845cffb282ab29498d93e30
+  - button "View Details"
+- button "RSVP"
+- text: Private
+- heading "Birthday Pty" [level=3]
+- paragraph
+- text: Invalid Date
+- 'link "Lat: 17, Lng: 78.344"':
+  - /url: https://www.google.com/maps?q=17,78.344
+- text: 0 attending
+- link "View Details":
+  - /url: /events/6845d0d8282ab29498d93e32
+  - button "View Details"
+- button "RSVP"
+- text: Private
+- heading "Product Lunching" [level=3]
+- paragraph
+- text: Invalid Date
+- link "Office no 5, 6-963/2, Madhava Reddy Colony, Gachibowli, Hyderabad, Telangana 500032":
+  - /url: https://www.google.com/maps?q=17,78.344
+- text: 0 attending
+- link "View Details":
+  - /url: /events/6845d5c102485fec7d925381
+  - button "View Details"
+- button "RSVP"
+- text: Private
+- heading "sangeet cermony" [level=3]
+- paragraph
+- text: Invalid Date
+- link "Beach Rd, Krishna Nagar, Maharani Peta, Visakhapatnam, Andhra Pradesh 530002":
+  - /url: https://www.google.com/maps?q=75.254,86.223
+- text: 0 attending
+- link "View Details":
+  - /url: /events/6845e08087173e8ddbd96549
+  - button "View Details"
+- button "RSVP"
+- text: Private
+- heading "sangeet" [level=3]
+- paragraph
+- text: Invalid Date
+- link "Beach Rd, Krishna Nagar, Maharani Peta, Visakhapatnam, Andhra Pradesh 530002":
+  - /url: https://www.google.com/maps?q=75.664,35.567
+- text: 0 attending
+- link "View Details":
+  - /url: /events/6845e0d587173e8ddbd9654b
+  - button "View Details"
+- button "RSVP"
+- button "Load More Events"
+- alert
+- button "Open Next.js Dev Tools":
+  - img
+```

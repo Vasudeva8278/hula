@@ -3,7 +3,7 @@ import { OAuth2Client } from 'google-auth-library';
 import mongoose from 'mongoose';
 import User from '@/app/models/User';
 
-// Initialize MongoDB connection
+
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
@@ -87,7 +87,8 @@ export async function POST(request: Request) {
       );
     }
 
-  
+
+    
     let user = await User.findOne({ email });
 
     if (!user) {
@@ -125,3 +126,6 @@ export async function POST(request: Request) {
     );
   }
 } 
+
+
+
