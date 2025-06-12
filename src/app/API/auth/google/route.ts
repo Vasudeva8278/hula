@@ -100,7 +100,6 @@ export async function POST(request: Request) {
         emailVerified: email_verified
       });
     } else if (!user.googleId) {
-      
       user.googleId = googleId;
       user.name = name;
       user.picture = picture;
