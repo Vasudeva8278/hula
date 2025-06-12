@@ -87,11 +87,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find or create user
+  
     let user = await User.findOne({ email });
 
     if (!user) {
-      // Create new user
+      
       user = await User.create({
         email,
         googleId,
@@ -100,7 +100,7 @@ export async function POST(request: Request) {
         emailVerified: email_verified
       });
     } else if (!user.googleId) {
-      // Update existing user with Google info
+      
       user.googleId = googleId;
       user.name = name;
       user.picture = picture;
@@ -108,7 +108,7 @@ export async function POST(request: Request) {
       await user.save();
     }
 
-    // Return user data (excluding sensitive information)
+   
     const userData = {
       id: user._id,
       email: user.email,
